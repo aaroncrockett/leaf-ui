@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+. "$(dirname "$0")/_/husky.sh"
+
+if ! grep -qE '^(wip|chore|feat|bug): ' "$1"; then
+  echo "Invalid commit message! Commit messages must start with 'wip:', 'chore:', 'feat:' or 'bug:'."
+  exit 1
+fi

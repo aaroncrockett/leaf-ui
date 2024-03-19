@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+pnpm recursive run lint
+lint_exit_code=$?
+
+pnpm recursive run test
+test_exit_code=$?
+
+exit $(($lint_exit_code + $test_exit_code))

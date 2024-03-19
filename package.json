@@ -1,0 +1,38 @@
+{
+  "name": "leaf-ui",
+  "version": "0.0.1",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
+  },
+  "author": "Aaron Crockett",
+  "description": "Leaf - UI. A Toolkit. A CSS agnostic solution with Tailwind support. Framework flexible, built to be easily ported to any framework by relying on CSS classes rather than options. Leaf can be used as a headless UI by overriding or using our default classes as hooks for your own styles. Leaf can be used with our default classes and provides easy overrides.",
+  "license": "MIT",
+  "devDependencies": {
+    "@changesets/cli": "^2.26.2",
+    "cspell": "^6.31.1",
+    "husky": "^8.0.0"
+  },
+  "homepage": "tbd",
+  "engines": {
+    "node": "18.17.0"
+  },
+  "keywords": [
+    "components",
+    "ui",
+    "vue",
+    "svelte",
+    "react",
+    "component-library",
+    "ui-components",
+    "ui-framework",
+    "css-agnostic",
+    "css-variables",
+    "tailwind",
+    "tailwindcss",
+    "components-library",
+    "ui-library"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "leaf-css",
+  "version": "0.12.0",
+  "description": "The CSS class library for Leaf.",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "build-v": "bun run scripts/index.ts",
+    "build-tw": "bun run scripts/index.ts --tw",
+    "test": "bun run test/index.js"
+  },
+  "author": "Aaron Crockett",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/postcss-js": "^4.0.4",
+    "bun-types": "^1.0.19",
+    "javascript-stringify": "^2.1.0",
+    "postcss-js": "^4.0.1",
+    "prettier": "^3.0.3"
+  },
+  "files": [
+    "dist",
+    "index.ts"
+  ],
+  "dependencies": {
+    "clean-css": "^5.3.3",
+    "update": "^0.7.4"
+  }
+}
