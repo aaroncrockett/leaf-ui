@@ -6,7 +6,7 @@ Script and style summary written in README.md under leaf.css
 import leafTheme from '../themes/leaf.js'
 // import paTheme from '../themes/pa.js'
 // Settings
-import { AT_TW_BASE, AT_TW_COMPONENTS, AT_TW_UTILITIES, colorNames, stops } from '../settings/index.js'
+import { colorNames, stops } from '../settings/global.js'
 
 // Helpers and Utils
 import {

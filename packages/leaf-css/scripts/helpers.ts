@@ -3,7 +3,8 @@ import type { GenericObject, Theme } from '../types.js'
 import { stringify } from 'javascript-stringify'
 // Utils and settings
 import { camelToKebab, getContrastYIQ, reduceToCamelCasingValue } from './utils.ts'
-import { AT_TW_BASE, AT_TW_COMPONENTS, AT_TW_UTILITIES, colorNames, stops } from '../settings/index.js'
+import { stops } from '../settings/global.js'
+import { AT_TW_BASE, AT_TW_COMPONENTS, AT_TW_UTILITIES } from '../settings/index.js'
 
 type ColorType = 'color' | 'background'
 

@@ -14,7 +14,7 @@ import {
 // Theme to test
 import leafTheme from '../themes/leaf.js'
 
-import { AT_TW_BASE, AT_TW_COMPONENTS, AT_TW_UTILITIES, colorNames, stops } from '../settings/index.js'
+import { colorNames, stops } from '../settings/global.js'
 
 import { accordion } from '../styles/components/accordion.js'
 import { appRail } from '../styles/components/app-rail.js'
