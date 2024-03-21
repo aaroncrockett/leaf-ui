@@ -316,7 +316,7 @@ export async function generateCss(toGenerate: string[] | string = allThemes) {
 
 export function twPlugin({ addBase, addComponents }: { addBase: any; addComponents: any }) {
   // Add Leaf Elements as components to Tailwind.
-  addBase(mergedBase)
+  // addBase(mergedBase)
   addComponents({ ...mergedEls })
 }
 
