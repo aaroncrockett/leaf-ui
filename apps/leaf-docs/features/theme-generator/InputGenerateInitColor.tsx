@@ -1,5 +1,6 @@
+import React from 'react'
 import { useEffect, useMemo, useState } from 'react'
-
+// Settings and utils
 import { HEX_LENGTH } from './settings'
 import { debounce, replaceAllDblHashes } from '@/utils'
 

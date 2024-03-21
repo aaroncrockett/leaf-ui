@@ -7,8 +7,6 @@ export default function SidebarLeft() {
   // closure
   const [railValue, setRailValue] = useState('a')
   const toggleCb = (value) => {
-    console.log('wtf 2')
-    console.log(railValue)
     setRailValue(value)
   }
   return (

@@ -1,4 +1,5 @@
 // React
+import React from 'react'
 import { useCallback, useEffect, useState, useRef } from 'react'
 // Local settings, composed, helpers
 import { type ColorData } from './settings/index'
