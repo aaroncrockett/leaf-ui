@@ -16,8 +16,14 @@
     "paths": {
       "@/*": ["./*"],
       "@components/*": ["components/*"],
-      "@providers/*": ["providers/*"]
-    }
+      "@features/*": ["features/*"],
+      "@helpers/*": ["helpers/*"],
+      "@providers/*": ["providers/*"],
+      "@utils/*": ["utils/*"]
+    },
+    "types": [
+      "bun-types" // add Bun global
+    ]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/index.jsx", "providers/withLayout.jsx.jsx"],
   "exclude": ["node_modules"]

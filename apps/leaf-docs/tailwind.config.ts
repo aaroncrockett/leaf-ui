@@ -5,6 +5,7 @@ import { twPlugin, getTwColors } from 'leaf-css/'
 
 const config: Config = {
   content: [
+    './features/**/*.{js,ts,jsx,tsx,mdx}',
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
