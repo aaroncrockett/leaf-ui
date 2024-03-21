@@ -1,12 +1,12 @@
 import withLayout from '@providers/withLayOut'
-// Next
-// import Image from 'next/image'
-// import { Inter } from 'next/font/google'
-
-// const inter = Inter({ subsets: ['latin'] })
+import ThemeGenerator from '../../features/theme-generator/ThemeGenerator'
 
 const ThemeGeneratorPage = ({ user = {}, cat = 'cat' }) => {
-  return <div className="p-4">Theme Generator</div>
+  return (
+    <div className="p-4">
+      <ThemeGenerator />
+    </div>
+  )
 }
 
 const ThemeGeneratorPageWithProviders = withLayout({ options: { showSidebarLeft: true } })(ThemeGeneratorPage)
