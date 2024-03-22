@@ -105,11 +105,11 @@ function setup() {
 
   let derivedColorPropsColl: string[] = []
 
-  const cssColorGenerate = createGenerateCssColor(generateCssPropsStr, createGenerateCssPropKeyValuePair, stops)
+  const generateCssColor = createGenerateCssColor(generateCssPropsStr, createGenerateCssPropKeyValuePair, stops)
 
   const contrastMap = createContrastColorsMap(theme)
 
-  return { colorClsContainer, derivedColorPropsColl, cssColorGenerate, contrastMap }
+  return { colorClsContainer, derivedColorPropsColl, generateCssColor, contrastMap }
 }
 
 test('generateCssPropKeyValuePair should return an object with the correct string within colorNames loop for standard and stop colors.', () => {
@@ -122,22 +122,22 @@ test('generateCssPropKeyValuePair should return an object with the correct strin
   expect(pairWStop).toEqual({ color: 'rgb(var(--color-primary-200))' })
 })
 
-test('backgroundsToGen and colorsToGenForStops should be in colorNames.forEach and should return an object. The object should contain the expected keys and values.', () => {
-  const { colorClsContainer, derivedColorPropsColl, cssColorGenerate, contrastMap } = setup()
+test('bgsToGenWCb and colorsToGenWCbForStops should be in colorNames.forEach and should return an object. The object should contain the expected keys and values.', () => {
+  const { colorClsContainer, derivedColorPropsColl, generateCssColor, contrastMap } = setup()
 
-  const { backgroundsToGen, colorsToGen, textOnToGen } = cssColorGenerate(
+  const { bgsToGenWCb, colorsToGenWCb, textOnToGenWCb } = generateCssColor(
     colorClsContainer,
     derivedColorPropsColl,
     contrastMap,
   )
 
   colorNames.forEach((colorName: string) => {
-    const backgroundsForStops = backgroundsToGen(colorName)
-    const colorsToGenForStops = colorsToGen(colorName)
-    const textOnToGenForStops = textOnToGen(colorName)
+    const backgroundsForStops = bgsToGenWCb(colorName)
+    const colorsToGenWCbForStops = colorsToGenWCb(colorName)
+    const textOnToGenWCbForStops = textOnToGenWCb(colorName)
     stops.forEach((stop) => {
       backgroundsForStops(stop)
-      colorsToGenForStops(stop)
+      colorsToGenWCbForStops(stop)
     })
   })
   expect(colorClsContainer).toHaveProperty('backgrounds')
@@ -165,13 +165,13 @@ test('backgroundsToGen and colorsToGenForStops should be in colorNames.forEach a
   expect(hasValWColorPrimaryColor).toBeTruthy()
 })
 
-test('textOnToGen should be in colorNames.forEach and should return an array and should contain the correct strings', () => {
-  const { colorClsContainer, derivedColorPropsColl, cssColorGenerate, contrastMap } = setup()
+test('textOnToGenWCb should be in colorNames.forEach and should return an array and should contain the correct strings', () => {
+  const { colorClsContainer, derivedColorPropsColl, generateCssColor, contrastMap } = setup()
 
-  const { textOnToGen } = cssColorGenerate(colorClsContainer, derivedColorPropsColl, contrastMap)
+  const { textOnToGenWCb } = generateCssColor(colorClsContainer, derivedColorPropsColl, contrastMap)
 
   colorNames.forEach((colorName: string) => {
-    const textOnForStops = textOnToGen(colorName)
+    const textOnForStops = textOnToGenWCb(colorName)
 
     stops.forEach((stop) => {
       textOnForStops(stop)
@@ -186,16 +186,16 @@ test('textOnToGen should be in colorNames.forEach and should return an array and
   expect(derivedColorPropsColl.some((str) => str.startsWith('--text-on-primary-900: black'))).toBeTruthy()
 })
 
-test('tokensToGen should be in colorNames.forEach and should be an object. The properties of the returned object should have the correct values.', () => {
-  const { colorClsContainer, derivedColorPropsColl, cssColorGenerate, contrastMap } = setup()
+test('tokensToGenWCb should be in colorNames.forEach and should be an object. The properties of the returned object should have the correct values.', () => {
+  const { colorClsContainer, derivedColorPropsColl, generateCssColor, contrastMap } = setup()
 
-  const { tokensToGen } = cssColorGenerate(colorClsContainer, derivedColorPropsColl, contrastMap)
+  const { tokensToGenWCb } = generateCssColor(colorClsContainer, derivedColorPropsColl, contrastMap)
 
   colorNames.forEach((colorName: string) => {
-    const tokensToGenForStops = tokensToGen(colorName)
+    const tokensToGenWCbForStops = tokensToGenWCb(colorName)
     let j = stops.length - 1
     stops.forEach((stop) => {
-      tokensToGenForStops(stop, j)
+      tokensToGenWCbForStops(stop, j)
       j--
     })
   })
@@ -221,13 +221,13 @@ test('tokensToGen should be in colorNames.forEach and should be an object. The p
   expect(hasProp900).toBe(hasDarkTokens)
 })
 
-test('colorClassesToGen', () => {
-  const { colorClsContainer, cssColorGenerate } = setup()
+test('colorClsesToGenWCb', () => {
+  const { colorClsContainer, generateCssColor } = setup()
 
-  const { colorClassesToGen } = cssColorGenerate(colorClsContainer)
+  const { colorClsesToGenWCb } = generateCssColor(colorClsContainer)
 
   colorNames.forEach((colorName) => {
-    const classesToGenForStop = colorClassesToGen(colorName)
+    const classesToGenForStop = colorClsesToGenWCb(colorName)
     stops.forEach((stop) => {
       classesToGenForStop(stop)
     })

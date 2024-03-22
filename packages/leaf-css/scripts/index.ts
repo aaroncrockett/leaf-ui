@@ -16,7 +16,7 @@ import {
   findPropsFromInternal,
   findPropsFromTheme,
   objectsToCSSProperties,
-  cssColorGenerate,
+  generateCssColor,
 } from './helpers.js'
 
 import { getContrastYIQ } from './utils.js'
@@ -61,17 +61,20 @@ export const getTwColors = () => {
   // All Token Background, Text, Border Colors
   const twColors: any = {}
 
-  const { colorClassesToGen } = cssColorGenerate(twColors)
+  const { bgsWAlphaToGen } = generateCssColor(twColors)
 
   colorNames.forEach((colorName: string) => {
-    const classesToGenForStop = colorClassesToGen(colorName)
+    const bgsWAlphaForStops = bgsWAlphaToGen(colorName)
     stops.forEach((stop) => {
-      classesToGenForStop(stop)
+      bgsWAlphaForStops(stop)
     })
   })
 
+  console.log(twColors)
+
   return twColors
 }
+getTwColors()
 
 // Used to collect key/values to create classes and colors for TW
 let backgrounds: GenericStringValueObject = {}
@@ -157,17 +160,17 @@ export async function generateCss(toGenerate: string[] | string = allThemes) {
 
     // Generate colors in several contexts for the theme.
     const generateColors = (contrastColorsMap: GenericObject) => {
-      const { backgroundsToGen, colorsToGen, textOnToGen, tokensToGen } = cssColorGenerate(
+      const { bgsToGenWCb, colorsToGenWCb, textOnToGenWCb, tokensToGenWCb } = generateCssColor(
         colorClsContainer,
         derivedColorPropsColl,
         contrastColorsMap,
       )
 
       colorNames.forEach((colorName: string) => {
-        const backgroundsForStops = backgroundsToGen(colorName)
-        const colorsForStops = colorsToGen(colorName)
-        const textOnToForStops = textOnToGen(colorName)
-        const tokensForStops = tokensToGen(colorName)
+        const backgroundsForStops = bgsToGenWCb(colorName)
+        const colorsForStops = colorsToGenWCb(colorName)
+        const textOnToForStops = textOnToGenWCb(colorName)
+        const tokensForStops = tokensToGenWCb(colorName)
 
         let j = stops.length - 1
 

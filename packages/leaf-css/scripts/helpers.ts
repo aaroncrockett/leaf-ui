@@ -3,15 +3,17 @@ import type { GenericObject, Theme } from '../types.js'
 import { stringify } from 'javascript-stringify'
 // Utils and settings
 import { camelToKebab, getContrastYIQ, reduceToCamelCasingValue } from './utils.ts'
-import { stops } from '../settings/global.js'
+import { stops, type Stops } from '../settings/global.js'
 import { AT_TW_BASE, AT_TW_COMPONENTS, AT_TW_UTILITIES } from '../settings/index.js'
 
-type ColorType = 'color' | 'background'
+type ColorType = 'color' | 'background' | 'background-alpha'
 
 export type CssPropsArgType =
   | 'color'
   | 'color-stop'
   | 'color_rgb'
+  | 'color_rgb/alpha'
+  | 'color-stop_rgb/alpha'
   | 'color-stop_rgb'
   | 'color-token_rgb'
   | 'color-stop-token_rgb'
@@ -189,11 +191,13 @@ export function objectsToCSSProperties(cssProps: Record<string, Record<string, s
 export const createGenerateCssColor = (
   generateCssPropsStr: Function,
   createGenerateCssPropKeyValuePair: Function,
-  stops: string[],
+  stops: Stops,
 ) => {
   const generateCssPropKeyValuePair = createGenerateCssPropKeyValuePair(generateCssPropsStr)
 
+  // Func: generateCssColor
   return function (container: any, collection?: string[], contrastColorsMap?: GenericObject) {
+    // // Funcs not exported
     const generateContainerValue = (type: ColorType, colorName: string) => {
       const containerProp = type === 'color' ? 'colors' : 'backgrounds'
       const prefix = type === 'color' ? 'text' : 'bg'
@@ -229,15 +233,24 @@ export const createGenerateCssColor = (
       }
     }
 
-    const backgroundsToGen = (colorName: string) => {
+    // // Funcs exported
+    // funds that include a call back for optinoal stops have WCb postfix
+    const bgsToGenWCb = (colorName: string) => {
       return generateContainerValue('background', colorName)
     }
 
-    const colorsToGen = (colorName: string) => {
+    const bgsWAlphaToGen = (colorName: string) => {
+      container[colorName] = generateCssPropsStr('color_rgb/alpha', colorName)
+      return (stop: string) => {
+        container[`${colorName}-${stop}`] = generateCssPropsStr('color-stop_rgb/alpha', colorName, stop)
+      }
+    }
+
+    const colorsToGenWCb = (colorName: string) => {
       return generateContainerValue('color', colorName)
     }
 
-    const colorClassesToGen = (colorName: string) => {
+    const colorClsesToGenWCb = (colorName: string) => {
       container[colorName] = {
         ...generateCssPropKeyValuePair('color', colorName),
       }
@@ -249,7 +262,7 @@ export const createGenerateCssColor = (
       }
     }
 
-    const textOnToGen = (colorName: string) => {
+    const textOnToGenWCb = (colorName: string) => {
       if (collection && contrastColorsMap) {
         const textColorVal = contrastColorsMap[`${colorName}`]
 
@@ -272,7 +285,7 @@ export const createGenerateCssColor = (
       }
     }
 
-    const tokensToGen = (colorName: string) => {
+    const tokensToGenWCb = (colorName: string) => {
       return generateContainerToken(colorName)
     }
 
@@ -281,11 +294,12 @@ export const createGenerateCssColor = (
     const getContainer = () => container
     const getCollection = () => collection
     return {
-      backgroundsToGen,
-      colorsToGen,
-      colorClassesToGen,
-      textOnToGen,
-      tokensToGen,
+      bgsToGenWCb,
+      bgsWAlphaToGen,
+      colorsToGenWCb,
+      colorClsesToGenWCb,
+      textOnToGenWCb,
+      tokensToGenWCb,
       getCollection,
       getContainer,
     }
@@ -297,6 +311,9 @@ export const createGenerateCssPropKeyValuePair =
   (type: ColorType, name: string, wStop = '') => {
     const prop = type === 'color' ? 'color' : 'background-color'
     const id = wStop ? 'color-stop_rgb' : 'color_rgb'
+    createGenerateCssPropKeyValuePair
+
+    // Func: generateCssPropKeyValuePair
     return { [prop]: generateCssPropsStr(id, name, wStop) }
   }
 
@@ -322,6 +339,14 @@ export const generateCssPropsStr: GenerateCssPropsStr = (
       return `rgb(var(--color-${name}))${cap}`
     }
 
+    if (id === 'color_rgb/alpha') {
+      return `rgb(var(--color-${name}) / <alpha-value>)${cap}`
+    }
+
+    if (id === 'color-stop_rgb/alpha') {
+      return `rgb(var(--color-${name}-${mod}) / <alpha-value>)${cap}`
+    }
+
     if (id === 'color-stop_rgb') {
       if (!mod) return ''
 
@@ -336,4 +361,4 @@ export const generateCssPropsStr: GenerateCssPropsStr = (
   return result
 }
 
-export const cssColorGenerate = createGenerateCssColor(generateCssPropsStr, createGenerateCssPropKeyValuePair, stops)
+export const generateCssColor = createGenerateCssColor(generateCssPropsStr, createGenerateCssPropKeyValuePair, stops)

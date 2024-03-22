@@ -17,7 +17,7 @@
 }
 
 .button-el {
-  @apply btn-md btn-base bg-primary-color;
+  @apply btn-md btn-base bg-primary border-2 border-primary;
 }
 
 .input-el {
