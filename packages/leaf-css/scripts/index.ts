@@ -48,13 +48,10 @@ import { accordion } from '../styles/components/accordion.js'
 import { drawer } from '../styles/components/drawer.js'
 import { slideToggle } from '../styles/components/slide-toggle.js'
 
-// We directly edit the theme file for these options.
-
 const CSS_DIST_ROOT = 'dist/themes/'
 
 const themes: Record<string, ThemeInfo> = {
   leaf: { theme: leafTheme, name: 'leaf' },
-  // pa: { theme: paTheme, name: 'pa' },
 }
 const allThemes = Object.keys(themes)
 export const getTwColors = () => {
