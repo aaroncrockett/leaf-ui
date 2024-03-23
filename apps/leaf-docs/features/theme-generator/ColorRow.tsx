@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { stopsWBase } from '../../settings/global'
-import { HEX_LENGTH } from './settings/index'
+import { HEX_LENGTH, steppedSwatchColorClasses } from './settings/index'
 
 import { replaceAllDblHashes } from '@/utils/index'
 
@@ -17,6 +17,9 @@ export default function ColorRow({ color: color, singleColorChange }: Props) {
 
     singleColorChange(color.key, hex)
   }
+  const getTwColorClass = (key: string, stop: string) => {
+    return steppedSwatchColorClasses[key][stop]
+  }
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value
@@ -26,13 +29,13 @@ export default function ColorRow({ color: color, singleColorChange }: Props) {
   }
 
   return (
-    <div className="grid grid-cols-11 bg-primary">
+    <div className="grid grid-cols-11">
       <input onChange={handleOnChange} className="input-el" type="text" placeholder="#cccccc" value={colorHex} />
       {stopsWBase.map((stop, index) => {
         return (
           <div className="flex flex-col" key={index}>
             <span className="flex whitespace-nowrap justify-center">{stop}</span>
-            <span className={clsx(`bg-${color.key} w-full h-6`)}>{colorHex}</span>
+            <span className={clsx(getTwColorClass(color.key, stop), 'w-full h-6')}>{colorHex}</span>
           </div>
         )
       })}
