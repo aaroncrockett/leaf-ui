@@ -9,6 +9,7 @@ import { createInitialThemeColors, generateColorScheme } from './helpers'
 import ButtonGenerateInitColor from './ButtonGenerateInitColor'
 import Heading from './Heading'
 import InputGenerateInitColor from './InputGenerateInitColor'
+import ColorRow from './ColorRow'
 
 function ThemeGenerator() {
   const [data, setData] = useState<ColorData[]>([])
@@ -20,11 +21,8 @@ function ThemeGenerator() {
   // For collecting data without rerendering.
   const tempData = useRef<ColorData[]>([])
 
-  // To use data collection to update the DOM.
-  const swapData = () => {
-    setData(tempData.current)
-    tempData.current = []
-  }
+  // Hold data and update the DOM.
+
   const updateTempData = (newData: Record<string, string>, index: number) => {
     tempData.current[index] = { ...tempData.current[index], ...newData }
   }
@@ -33,18 +31,29 @@ function ThemeGenerator() {
     tempData.current = newData
   }
 
+  const setColorData = (data: ColorData[]) => {
+    setData(data)
+    tempData.current = data
+  }
+
+  const singleColorChange = (key: string, hex: string) => {
+    const index = tempData.current.findIndex((color) => color.key === key)
+
+    updateTempData({ hex: hex }, index)
+
+    console.log(tempData.current)
+  }
+
   const generateInitColors = useCallback(
     (colorHex: string) => {
       const colors = generateColorScheme(colorScheme, colorHex)
 
       if (colors.length) {
         setPrimaryHex(colorHex)
-        setTempData(createInitialThemeColors(colors))
-        swapData()
+        setColorData(createInitialThemeColors(colors))
       } else {
         setPrimaryHex('')
-        setTempData([])
-        swapData()
+        setColorData([])
       }
     },
     [colorScheme],
@@ -68,10 +77,9 @@ function ThemeGenerator() {
       <Heading />
       <ButtonGenerateInitColor generateInitColors={generateInitColors} />
       <InputGenerateInitColor color={primaryHex} generateInitColors={generateInitColors} />
+
       {data.map((color, index) => (
-        <div key={index}>
-          {color.label} {color.hex}
-        </div>
+        <ColorRow key={color.key} color={color} singleColorChange={singleColorChange} />
       ))}
     </div>
   )

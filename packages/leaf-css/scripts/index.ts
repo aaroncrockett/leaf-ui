@@ -54,6 +54,7 @@ const themes: Record<string, ThemeInfo> = {
   leaf: { theme: leafTheme, name: 'leaf' },
 }
 const allThemes = Object.keys(themes)
+
 export const getTwColors = () => {
   // All Token Background, Text, Border Colors
   const twColors: any = {}
@@ -72,6 +73,8 @@ export const getTwColors = () => {
   return twColors
 }
 getTwColors()
+
+console.log(getTwColors())
 
 // Used to collect key/values to create classes and colors for TW
 let backgrounds: GenericStringValueObject = {}
