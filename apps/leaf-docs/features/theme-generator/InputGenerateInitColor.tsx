@@ -37,9 +37,9 @@ export default function InputGenerateInitColor({ generateInitColors, color: init
   }, [initialColor])
 
   return (
-    <div>
+    <div className="w-1/2">
       {warnMsg && <p>{warnMsg}</p>}
-      <input onChange={handleOnChange} className="input-el" type="text" placeholder="#cccccc" value={color} />
+      <input onChange={handleOnChange} className="input-el w-full" type="text" placeholder="#cccccc" value={color} />
     </div>
   )
 }
