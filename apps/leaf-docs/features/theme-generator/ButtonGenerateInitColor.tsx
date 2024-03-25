@@ -17,7 +17,7 @@ export default function ButtonGenerateInitColor({ generateInitColors }: Props) {
   return (
     <div>
       <button className="button-el" onClick={handleClick}>
-        Gen Random Color
+        Random Color
       </button>
     </div>
   )

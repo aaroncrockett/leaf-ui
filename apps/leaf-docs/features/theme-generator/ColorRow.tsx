@@ -29,13 +29,13 @@ export default function ColorRow({ color: color, singleColorChange }: Props) {
   }
 
   return (
-    <div className="grid grid-cols-11">
+    <div className="grid grid-cols-13">
       <input onChange={handleOnChange} className="input-el" type="text" placeholder="#cccccc" value={colorHex} />
       {stopsWBase.map((stop, index) => {
         return (
           <div className="flex flex-col" key={index}>
-            <span className="flex whitespace-nowrap justify-center">{stop}</span>
-            <span className={clsx(getTwColorClass(color.key, stop), 'w-full h-6')}>{colorHex}</span>
+            <span className="flex whitespace-nowrap justify-center p-2">{stop}</span>
+            <span className={clsx(getTwColorClass(color.key, stop), 'w-full h-12 p-2')}></span>
           </div>
         )
       })}

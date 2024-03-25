@@ -72,9 +72,11 @@ function ThemeGenerator() {
   })
 
   return (
-    <div className="relative">
+    <div className="relative flex flex-col items-center space-y-2">
       <div className="absolute top-0 right-0">Count: {renderCount.current}</div>
+
       <Heading />
+
       <ButtonGenerateInitColor generateInitColors={generateInitColors} />
       <InputGenerateInitColor color={primaryHex} generateInitColors={generateInitColors} />
 
