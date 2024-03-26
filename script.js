@@ -4,7 +4,7 @@ const settingsSrcFile = './settings.ts'
 const settingsTargetFiles = ['./packages/leaf-css/settings/global.ts', './apps/leaf-docs/settings/global.ts']
 
 const typesSrcFile = './types.ts'
-const typesTargetFiles = ['./packages/leaf-css/settings/global-types.ts', './apps/leaf-docs/settings/global-types.ts']
+const typesTargetFiles = ['./packages/leaf-css/global-types.ts', './apps/leaf-docs/global-types.ts']
 
 async function copyFiles(sourceFile, targetFiles) {
   const promises = targetFiles.map(async (targetFile) => {
