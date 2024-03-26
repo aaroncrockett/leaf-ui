@@ -1,9 +1,9 @@
-export function reduceFuncs(funcs: any, args: any[]) {
+export function reduceFuncs(funcs: any, lib: any) {
   return funcs.reduce(
     (acc: any, func: any) => {
       const funcName = func.name
 
-      const returnedFunc = func(...args)
+      const returnedFunc = func(lib)
       acc[funcName] = returnedFunc
       return acc
     },
