@@ -1,6 +1,5 @@
 /*
 Script and style summary written in README.md under leaf.css
-
 */
 // Themes
 import leafTheme from '../themes/leaf.js'
@@ -8,7 +7,7 @@ import leafTheme from '../themes/leaf.js'
 // Settings
 import { colorNames, stops } from '../settings/global.js'
 
-// Helpers and Utils
+// Helpers, Utils Compositions
 import {
   buildThemeProps,
   convertMatchesToCamelCasing,
@@ -16,12 +15,12 @@ import {
   findPropsFromInternal,
   findPropsFromTheme,
   objectsToCSSProperties,
-  generateCssColor,
 } from './helpers.js'
+import { generateCssColor } from './composes.js'
 
-import { getContrastYIQ } from './utils.js'
 // Project Types
-import type { GenericStringValueObject, GenericObject, Theme, ThemeInfo } from '../types.js'
+import type { Theme, ThemeInfo } from '../types.js'
+import type { GenericStringValueObject, GenericObject } from '../global-types.js'
 // Package imports
 // @ts-ignore
 import CleanCSS from 'clean-css'
@@ -68,13 +67,9 @@ export const getTwColors = () => {
     })
   })
 
-  console.log(twColors)
-
   return twColors
 }
 getTwColors()
-
-console.log(getTwColors())
 
 // Used to collect key/values to create classes and colors for TW
 let backgrounds: GenericStringValueObject = {}
@@ -129,8 +124,7 @@ let collectedTwProps: string[] = []
 export async function generateCss(toGenerate: string[] | string = allThemes) {
   try {
     // complete what we can based on internals which is not dependent only particular themes, IE collecting spacing values
-    let processedCSS: Result
-    let mergedProcessedCSS = ''
+    let processedCSSResults = ''
     let cssPropsString = ''
     let isTw = false
 
@@ -139,13 +133,13 @@ export async function generateCss(toGenerate: string[] | string = allThemes) {
       // Build for TW.
       isTw = true
 
-      processedCSS = await postcss().process(
+      let processedCSS = await postcss().process(
         { ...mergedComps },
         {
           parser: postcssJs.parse,
         },
       )
-      mergedProcessedCSS = processedCSS.css
+      processedCSSResults = processedCSS.css
 
       // See if props are used within the components and elements, otherwise we don't need to include them in our theme for TW purposes.
       const collectedTwSpacingKeys = findPropsFromInternal(spacing, 'spacing', mergedInternals)
@@ -235,11 +229,11 @@ export async function generateCss(toGenerate: string[] | string = allThemes) {
           ...tokenBackgrounds,
         }
 
-        processedCSS = await postcss().process(mergedForProcessing, {
+        let processedCSS = await postcss().process(mergedForProcessing, {
           parser: postcssJs.parse,
         })
 
-        mergedProcessedCSS += processedCSS.css
+        processedCSSResults += processedCSS.css
 
         builtCssPropsString = buildThemeProps(true, [
           processedCSSThemeColors.css,
@@ -257,11 +251,11 @@ export async function generateCss(toGenerate: string[] | string = allThemes) {
           ...tokenBackgrounds,
         }
 
-        processedCSS = await postcss().process(mergedForProcessing, {
+        let processedCSS = await postcss().process(mergedForProcessing, {
           parser: postcssJs.parse,
         })
 
-        mergedProcessedCSS = processedCSS.css
+        processedCSSResults = processedCSS.css
 
         cssPropsString = objectsToCSSProperties(leafCSSProps)
         propsString = cssPropsString
@@ -278,7 +272,7 @@ export async function generateCss(toGenerate: string[] | string = allThemes) {
         parser: 'css',
       })
 
-      const minifiedMergedCSS = new CleanCSS().minify(mergedProcessedCSS)
+      const minifiedMergedCSS = new CleanCSS().minify(processedCSSResults)
 
       const finalCSS = processedProps + minifiedMergedCSS.styles
 
