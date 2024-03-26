@@ -14,4 +14,5 @@ export const stops = ['50', '100', '200', '300', '400', '600', '700', '800', '90
 export const stopsWBase = [...stops.slice(0, 5), 'base', ...stops.slice(5)] as const
 
 export type ColorNames = (typeof colorNames)[number]
-export type Stops = (typeof stops)[number]
+export type Stops = typeof stops
+export type Stop = (typeof stops)[number]

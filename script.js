@@ -1,9 +1,12 @@
 const fs = require('fs').promises
 
-const sourceFile = './settings.ts'
-const targetFiles = ['./packages/leaf-css/settings/global.ts', './apps/leaf-docs/settings/global.ts']
+const settingsSrcFile = './settings.ts'
+const settingsTargetFiles = ['./packages/leaf-css/settings/global.ts', './apps/leaf-docs/settings/global.ts']
 
-async function copyFiles() {
+const typesSrcFile = './types.ts'
+const typesTargetFiles = ['./packages/leaf-css/settings/global-types.ts', './apps/leaf-docs/settings/global-types.ts']
+
+async function copyFiles(sourceFile, targetFiles) {
   const promises = targetFiles.map(async (targetFile) => {
     try {
       await fs.copyFile(sourceFile, targetFile)
@@ -17,4 +20,5 @@ async function copyFiles() {
   await Promise.all(promises)
 }
 
-copyFiles()
+copyFiles(settingsSrcFile, settingsTargetFiles)
+copyFiles(typesSrcFile, typesTargetFiles)
