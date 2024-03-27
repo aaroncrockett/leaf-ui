@@ -7,10 +7,11 @@ interface Props {
 export default function ButtonGenerateInitColor({ generateInitColors }: Props) {
   const handleClick = () => {
     const result = leafColors.generateRandomHex()
-    if (result.success && result.result) {
-      generateInitColors(result.result)
-    } else {
+    if ('errorMsg' in result) {
+      console.error(result.errorMsg)
       generateInitColors('')
+    } else {
+      generateInitColors(result.data)
     }
   }
 
