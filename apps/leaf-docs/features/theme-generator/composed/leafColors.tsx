@@ -1,7 +1,7 @@
 import chroma from 'chroma-js'
 import { reduceFuncs, replaceAllDblHashes } from '../../../utils/index'
 
-export interface LeafColorResultLoc {
+export interface LeafColorResult {
   data?: string[] | string
   errorMsg?: string
 }
@@ -21,26 +21,22 @@ export const generateRandomHex = (lib: any) => () => {
 
 export const generateRotatedHueHex = (lib: any) => (color: string, by: string) => {
   return lib(color).set('hsl.h', by).hex()
-
-  console.warn('You passed in an unsupported type.')
 }
 
-export const createGenerateTriadColors = (generateRotatedHueHex: any) =>
-  // Func: generateTriadColors
-  function (color: string) {
-    try {
-      const color2 = generateRotatedHueHex(color, '+120')
-      const color3 = generateRotatedHueHex(color, '-120')
-      return { data: [color2, color3] }
-    } catch (e) {
-      console.error(e)
-      return { errorMsg: e.message }
-    }
+export const generateTriadColors = (generateRotatedHueHex: any) => (color: string) => {
+  try {
+    const color2 = generateRotatedHueHex(color, '+120')
+    const color3 = generateRotatedHueHex(color, '-120')
+    return { data: [color2, color3] }
+  } catch (e) {
+    console.error(e)
+    return { errorMsg: e.message }
   }
+}
 
-export const createGetRgbString = (replaceAllDblHashes: any) =>
-  // Func: getRgbString
-  function (hex: string, separator: string = ' ') {
+export const getRgbString =
+  (replaceAllDblHashes: any) =>
+  (hex: string, separator: string = ' ') => {
     const sanitizedHex = replaceAllDblHashes(hex)
     const colorParts = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(sanitizedHex)
 
@@ -52,21 +48,27 @@ export const createGetRgbString = (replaceAllDblHashes: any) =>
   }
 
 // Each function in libDepFuncs depends on a color. loop over then and pass it in.
-export const libDepFuncs = [generateRandomHex, generateRotatedHueHex, createGenerateTriadColors]
-// Pass the remainig in as an opts like object bc we don't know how many we will have. If they depend on something, pass the dep in here.
+export const libDepFuncs = [generateRandomHex, generateRotatedHueHex, generateTriadColors]
+
 export const funcs = {
-  getRgbString: createGetRgbString(replaceAllDblHashes),
-  generateTriadColors: createGenerateTriadColors(generateRotatedHueHex),
+  replaceAllDblHashes: replaceAllDblHashes,
+  getRgbString: getRgbString,
+  generateTriadColors: generateTriadColors,
 }
 
 export const createLeafColors = (reduceFuncs: any) => (lib: any, libDepFuncs: any[], funcs: any) => {
   const libFuncs = reduceFuncs(libDepFuncs, lib)
 
+  const generalFuncs = {
+    generateTriadColors: funcs.generateTriadColors(libFuncs.generateRotatedHueHex),
+    getRgbString: funcs.getRgbString(funcs.replaceAllDblHashes),
+  }
+
   return {
     generateRandomHex: libFuncs.generateRandomHex,
     generateRotatedHueHex: libFuncs.generateRotatedHueHex,
-    generateTriadColors: funcs.generateTriadColors,
-    getRgbString: funcs.getRgbString,
+    generateTriadColors: generalFuncs.generateTriadColors,
+    getRgbString: generalFuncs.getRgbString,
   }
 }
 

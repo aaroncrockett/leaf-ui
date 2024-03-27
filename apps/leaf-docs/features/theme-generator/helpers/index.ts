@@ -14,35 +14,39 @@ export const createInitialThemeColors = (colors: { name: string; value: string }
   return colorColl
 }
 
-export const createGenerateColorScheme = (leafColors: any) => (scheme: string, base: string) => {
-  let result: LeafColorResult = {}
-  let results: any[] = []
-  if (!base) {
+export const createGetColorScheme = (leafColors: any) =>
+  // Func: getColorScheme
+  function (scheme: string, base: string) {
+    let result: LeafColorResult = {}
+    let results: any[] = []
+    if (!base) {
+      return results
+    }
+    switch (scheme) {
+      case 'triad':
+        result = leafColors.generateTriadColors(base)
+
+        if ('errorMsg' in result) {
+          console.error(result.errorMsg)
+        } else if (result.data && Array.isArray(result.data)) {
+          results = [
+            { name: 'primary', value: base },
+            { name: 'secondary', value: result?.data[0] },
+            { name: 'tertiary', value: result?.data[1] },
+          ]
+        }
+
+        break
+      case 'analogous':
+        break
+
+      case 'complementary':
+        break
+
+      default:
+        break
+    }
     return results
   }
-  switch (scheme) {
-    case 'triad':
-      result = leafColors.generateTriadColors(base)
 
-      if (result.success && result.result) {
-        results = [
-          { name: 'primary', value: base },
-          { name: 'secondary', value: result?.result[0] },
-          { name: 'tertiary', value: result?.result[1] },
-        ]
-      }
-
-      break
-    case 'analogous':
-      break
-
-    case 'complementary':
-      break
-
-    default:
-      break
-  }
-  return results
-}
-
-export const generateColorScheme = createGenerateColorScheme(leafColors)
+export const getColorScheme = createGetColorScheme(leafColors)

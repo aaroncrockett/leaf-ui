@@ -1,9 +1,9 @@
 import { stops, type Stop } from '../settings/global'
 import type { GenericObject } from '../global-types.js'
 
-type CSSPropTypeLoc = 'color' | 'background' | 'background-alpha'
+type CSSPropType = 'color' | 'background' | 'background-alpha'
 
-export type StrategyTypeLoc =
+export type StrategyType =
   | 'color'
   | 'color-stop'
   | 'color_rgb'
@@ -13,13 +13,13 @@ export type StrategyTypeLoc =
   | 'color-token_rgb'
   | 'color-stop-token_rgb'
 
-export type ContainerTypeLoc = {
+export type ContainerType = {
   backgrounds?: Record<string, string>
   colors?: Record<string, string>
 }
 
 type GenerateCssPropsStr = (
-  type: StrategyTypeLoc,
+  type: StrategyType,
   name: string,
   mod?: string,
   opts?: Record<string, string | boolean>,
@@ -38,7 +38,7 @@ export const createGenerateCssColor = (
   // Func: generateCssColor
   return function (container: any, collection?: string[], contrastColorsMap?: GenericObject) {
     // // Funcs not exported
-    const generateContainerValue = (type: CSSPropTypeLoc, colorName: string) => {
+    const generateContainerValue = (type: CSSPropType, colorName: string) => {
       const containerProp = type === 'color' ? 'colors' : 'backgrounds'
       const prefix = type === 'color' ? 'text' : 'bg'
       const prop = type === 'color' ? 'color' : 'background-color'
@@ -148,7 +148,7 @@ export const createGenerateCssColor = (
 
 export const createGenerateCssPropKeyValuePair =
   (generateCssPropsStr: GenerateCssPropsStr) =>
-  (type: CSSPropTypeLoc, name: string, wStop = '') => {
+  (type: CSSPropType, name: string, wStop = '') => {
     const prop = type === 'color' ? 'color' : 'background-color'
     const id = wStop ? 'color-stop_rgb' : 'color_rgb'
     createGenerateCssPropKeyValuePair
@@ -158,7 +158,7 @@ export const createGenerateCssPropKeyValuePair =
   }
 
 export const generateCssPropsStr: GenerateCssPropsStr = (
-  id: StrategyTypeLoc,
+  id: StrategyType,
   name: string,
   mod?: string,
   opts?: Record<string, string | boolean>,

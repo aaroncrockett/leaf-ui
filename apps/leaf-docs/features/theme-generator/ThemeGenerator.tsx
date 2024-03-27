@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState, useRef } from 'react'
 // Local settings, composed, helpers
 import { type ColorData } from './settings/index'
 import { leafColors } from './composed/leafColors'
-import { createInitialThemeColors, generateColorScheme } from './helpers'
+import { createInitialThemeColors, getColorScheme } from './helpers'
 //
 import ButtonGenerateInitColor from './ButtonGenerateInitColor'
 import Heading from './Heading'
@@ -40,13 +40,11 @@ function ThemeGenerator() {
     const index = tempData.current.findIndex((color) => color.key === key)
 
     updateTempData({ hex: hex }, index)
-
-    console.log(tempData.current)
   }
 
   const generateInitColors = useCallback(
     (colorHex: string) => {
-      const colors = generateColorScheme(colorScheme, colorHex)
+      const colors = getColorScheme(colorScheme, colorHex)
 
       if (colors.length) {
         setPrimaryHex(colorHex)
@@ -62,9 +60,7 @@ function ThemeGenerator() {
   useEffect(() => {
     const result = leafColors.generateRandomHex()
 
-    if (result.success && result.result) {
-      generateInitColors(result.result)
-    }
+    'errorMsg' in result ? console.error(result.errorMsg) : generateInitColors(result.data)
   }, [generateInitColors])
 
   useEffect(() => {
