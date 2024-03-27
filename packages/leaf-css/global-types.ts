@@ -6,3 +6,7 @@ export interface GenericStringValueObject {
 export interface GenericObject {
   [key: string]: any
 }
+
+export interface GenericString {
+  [key: string]: any
+}
