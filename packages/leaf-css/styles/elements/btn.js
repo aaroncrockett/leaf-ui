@@ -12,6 +12,10 @@ module.exports = {
       padding: 'var(--btn-p-lg)',
       fontSize: 'var(--btn-font-lg-size)',
     },
+    '.btn-xl': {
+      padding: 'var(--btn-p-xl)',
+      fontSize: 'var(--btn-font-lg-size)',
+    },
     '.btn-chip': {
       padding: 'var(--btn-p-chip)',
       fontSize: 'var(--btn-font-sm-size)',
@@ -34,6 +38,11 @@ module.exports = {
     '.btn-base:active': {
       transform: 'scale(var(--btn-active-scale))',
       filter: 'brightness(var(--btn-active-filter))',
+    },
+    '.btn-base:disabled': {
+      filter: 'brightness(var(--btn-disabled-filter))',
+      opacity: 'var(--btn-disabled-opacity)',
+      transform: 'scale(1)',
     },
   },
 }

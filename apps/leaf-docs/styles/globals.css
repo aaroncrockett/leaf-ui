@@ -1,3 +1,5 @@
+@import './my-buttons.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -16,10 +18,7 @@
   }
 }
 
-.button-el {
-  @apply btn-md btn-base bg-primary border-2 border-primary;
-}
-
+/* All Inputs */
 .input-el {
   @apply input-base bg-neutral-100 border-neutral-300 border-2;
 }

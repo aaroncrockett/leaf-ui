@@ -1,4 +1,5 @@
 import { leafColors } from './composed/leafColors'
+import UiButton from 'leaf-react/lib/UiButton'
 
 interface Props {
   generateInitColors: (str: string) => void
@@ -15,11 +16,5 @@ export default function ButtonGenerateInitColor({ generateInitColors }: Props) {
     }
   }
 
-  return (
-    <div>
-      <button className="button-el" onClick={handleClick}>
-        Random Color
-      </button>
-    </div>
-  )
+  return <UiButton text="Random Color" className="ui-button" onClick={handleClick} />
 }

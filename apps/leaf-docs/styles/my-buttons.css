@@ -1,0 +1,88 @@
+/* TODO: Supply basic tempaltes/recommendations for customizing the UI for hte user */
+
+/* All Buttons */
+/* composables parts */
+.ui-button-base {
+  @apply btn-base border-2;
+}
+
+/* // because focus depends on a specific color variable, rather than a dynamic brightness or scale , we define it here rather than in the UI lib. and we need to add the box-shadow color to each button color */
+.ui-button-focus:focus-visible {
+  outline: none;
+}
+
+.ui-button-primary {
+  @apply ui-button-base bg-primary border-primary;
+  @apply ui-button-focus;
+}
+
+.ui-button-primary:focus-visible {
+  box-shadow: 0 0 0 4px rgba(var(--color-primary-100));
+}
+
+/* Option classes */
+.ui-button-sm {
+  @apply btn-sm ui-button-primary;
+}
+
+.ui-button {
+  @apply btn-md ui-button-primary;
+}
+
+.ui-button-lg {
+  @apply btn-lg ui-button-primary;
+}
+
+.ui-button-xl {
+  @apply btn-xl ui-button-primary;
+}
+
+.ui-button-secondary-base {
+  @apply ui-button-base bg-primary-200 border-secondary-200;
+  @apply ui-button-focus;
+}
+
+.ui-button-secondary {
+  @apply btn-md ui-button-secondary-base;
+}
+
+.ui-button-secondary:focus-visible {
+  box-shadow: 0 0 0 4px rgba(var(--color-secondary-600));
+}
+
+.ui-button-secondary-sm {
+  @apply btn-sm ui-button-secondary-base;
+}
+
+.ui-button-secondary-lg {
+  @apply btn-lg ui-button-secondary-base;
+}
+
+.ui-button-secondary-xl {
+  @apply btn-xl ui-button-secondary-base;
+}
+
+.ui-button-ghost-base {
+  @apply ui-button-base border-secondary;
+  @apply ui-button-focus;
+}
+
+.ui-button-ghost {
+  @apply btn-md ui-button-ghost-base;
+}
+
+.ui-button-secondary:focus-visible {
+  box-shadow: 0 0 0 4px rgba(var(--color-secondary-600));
+}
+
+.ui-button-secondary-sm {
+  @apply btn-sm ui-button-ghost-base;
+}
+
+.ui-button-secondary-lg {
+  @apply btn-lg ui-button-ghost-base;
+}
+
+.ui-button-secondary-xl {
+  @apply btn-xl ui-button-ghost-base;
+}
